@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Foodzie App</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+    }
+
+    /* LOGIN PAGE */
+    #login-page {
+      background-color: #fbe7d0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand {
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .brand span:nth-child(1) { color: #d0842b; }
+    .brand span:nth-child(2) { color: #d6b8b2; }
+    .brand span:nth-child(3) { color: #88d0d0; }
+    .brand span:nth-child(4) { color: #d0842b; }
+    .brand span:nth-child(5) { color: #88d0d0; }
+    .brand span:nth-child(6) { color: #d6b8b2; }
+    .brand span:nth-child(7) { color: #d0842b; }
+
+    .tagline {
+      color: #a17764;
+      letter-spacing: 4px;
+      margin-bottom: 30px;
+    }
+
+    .login-form input {
+      padding: 10px;
+      width: 250px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .login-form button {
+      padding: 10px;
+      background-color: #f0e4d7;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 5px;
+      width: 100%;
+    }
+
+    /* BERANDA PAGE */
+    #beranda-page {
+      display: none;
+      background-color: #eec9c6;
+    }
+
+    .top-bar {
+      background-color: #d6c2bb;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background: white;
+      border-radius: 5px;
+      padding: 5px 10px;
+      width: 60%;
+    }
+
+    .search-bar input {
+      border: none;
+      outline: none;
+      padding: 5px;
+      flex: 1;
+    }
+
+    .profile-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: black;
+      mask: url('https://cdn-icons-png.flaticon.com/512/847/847969.png') no-repeat center;
+      -webkit-mask: url('https://cdn-icons-png.flaticon.com/512/847/847969.png') no-repeat center;
+      background-color: black;
+      mask-size: cover;
+      -webkit-mask-size: cover;
+    }
+
+    .logo-text {
+      font-size: 50px;
+      color: #d17c79;
+      text-align: center;
+      margin-top: -20px;
+      font-weight: bold;
+    }
+
+    .categories {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+    }
+
+    .category {
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .category img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      padding: 10px;
+      background-color: white;
+    }
+
+    .category-name {
+      margin-top: 10px;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .recommendation {
+      padding: 20px;
+      background-color: #d48d8d;
+      border-top-left-radius: 30px;
+      border-top-right-radius: 30px;
+    }
+
+    .recommendation h2 {
+      margin-top: 0;
+      font-size: 24px;
+    }
+
+    .menu-item {
+      display: flex;
+      margin-bottom: 20px;
+      background-color: #2d4b46;
+      border-radius: 10px;
+      overflow: hidden;
+      color: white;
+    }
+
+    .menu-item img {
+      width: 120px;
+      height: 100px;
+      object-fit: cover;
+    }
+
+    .menu-info {
+      padding: 10px;
+      flex: 1;
+    }
+
+    .menu-info h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .menu-info p {
+      margin: 5px 0;
+    }
+
+    .star {
+      color: gold;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN PAGE -->
+  <div id="login-page">
+    <div class="brand">
+      <span>f</span><span>o</span><span>o</span><span>d</span><span>z</span><span>i</span><span>e</span>
+    </div>
+    <div class="tagline">LET'S COOK</div>
+    <form class="login-form" onsubmit="event.preventDefault(); showBeranda();">
+      <input type="text" placeholder="Username" required />
+      <input type="password" placeholder="Password" required />
+      <button type="submit">LOGIN</button>
+    </form>
+  </div>
+
+  <!-- BERANDA PAGE -->
+  <div id="beranda-page">
+    <div class="top-bar">
+      <div class="search-bar">
+        🔍<input type="text" placeholder="Search" />
+      </div>
+      <div class="profile-icon"></div>
+    </div>
+    <!-- Tambahkan tombol logout di sini -->
+    <div style="text-align:right; margin: 10px 20px 0 0;">
+      <button onclick="logout()" style="padding: 8px 18px; border: none; background: #d17c79; color: white; border-radius: 5px;">Logout</button>
+    </div>
+
+    <div class="logo-text">FOODZIE</div>
+
+    <div class="categories">
+      <div class="category" onclick="showMenu('sweet')">
+        <img src="https://raw.githubusercontent.com/afiqmuzhaffar/Foodzie/main/Sweet.jpeg" alt="Sweet" />
+        <div class="category-name">Sweet</div>
+      </div>
+      <div class="category" onclick="showMenu('tasty')">
+        <img src= "https://raw.githubusercontent.com/afiqmuzhaffar/Foodzie/main/tasty.jpeg" alt="Tasty" />
+        <div class="category-name">Tasty</div>
+      </div>
+      <div class="category" onclick="showMenu('healthy')">
+        <img src="https://raw.githubusercontent.com/afiqmuzhaffar/Foodzie/main/healthy.jpeg" alt="Healthy" />
+        <div class="category-name">Healthy</div>
+      </div>
+    </div>
+
+    <!-- Rekomendasi Menu -->
+    <div class="recommendation" id="menu-rekomendasi">
+      <h2>Rekomendasi :</h2>
+      <div class="menu-item">
+        <img src="https://raw.githubusercontent.com/afiqmuzhaffar/Foodzie/main/ricebowl.jpg" alt="Rice bowl" />
+        <div class="menu-info">
+          <h3>Rice bowl</h3>
+          <p>Nasi, Telur, Daging</p>
+          <p class="star">⭐ 4,4</p>
+          <p><strong>Resep:</strong> Masak nasi, goreng telur, tumis daging dengan kecap manis dan bawang.</p>
+          <p><strong>Tutorial Masak:</strong></p>
+    <ol>
+      <li>Masak nasi seperti biasa menggunakan rice cooker atau panci.</li>
+      <li>Panaskan sedikit minyak, goreng telur mata sapi.</li>
+      <li>Potong daging tipis-tipis, tumis dengan kecap manis, bawang putih, dan sedikit garam.</li>
+      <li>Susun nasi, telur, dan daging dalam mangkuk. Sajikan hangat.</li>
+    </ol>
+        </div>
+      </div>
+      <div class="menu-item">
+        <img src= "https://raw.githubusercontent.com/afiqmuzhaffar/Foodzie/main/spaghetti.jpg" alt="Spaghetti seafood" />
+        <div class="menu-info">
+          <h3>Spaghetti seafood</h3>
+          <p>Mie Spaghetti, Udang, Bolongnese</p>
+          <p class="star">⭐ 4,5</p>
+          <p><strong>Resep:</strong> <span style="color: red;">🔒 Resep ini hanya bisa dibuka dengan pembayaran</span><br>
+      <a href="https://wa.me/628999447947?text=Saya%20ingin%20membuka%20resep%20Spaghetti%20Seafood" target="_blank" style="text-decoration: none;">
+  <button style="padding:5px 15px; border:none; background:#d17c79; color:white; border-radius:5px; margin-top:5px;">
+    Bayar & Konfirmasi via WhatsApp
+  </button>
+</a>
+</div>
+</div>
+      <div class="menu-item">
+        <img src="https://raw.githubusercontent.com/afiqmuzhaffar/Foodzie/main/saladsayur.jpg" alt="Salad Sayur" />
+        <div class="menu-info">
+          <h3>Salad Sayur</h3>
+          <p>Fresh Vegetables, Dressing</p>
+          <p class="star">⭐ 4,3</p>
+          <p><strong>Resep:</strong> Potong sayuran segar, campur dengan dressing lemon dan minyak zaitun.</p>
+          <ol>
+      <li>Cuci bersih semua sayuran seperti selada, tomat, timun, dan wortel.</li>
+      <li>Potong-potong sesuai selera.</li>
+      <li>Campurkan 1 sdm minyak zaitun dan 1 sdt air lemon, tambahkan sedikit garam dan lada.</li>
+      <li>Tuang dressing ke sayuran, aduk rata, dan sajikan segera.</li>
+    </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- Menu Sweet -->
+    <div id="menu-sweet" style="display:none;">
+      <h2>Sweet Menu</h2>
+      <div class="menu-item">
+        <img src="https://raw.githubusercontent.com/afiqmuzhaffar/Foodzie/main/cake.jpg" alt="Cake" />
+        <div class="menu-info">
+          <h3>Cake</h3>
+          <p>Chocolate Cake, Vanilla Frosting</p>
+          <p class="star">⭐ 4,4</p>
+          <p><strong>Resep:</strong> Panggang adonan coklat, tambahkan frosting vanilla di atasnya.</p>
+          <ol>
+      <li>Campurkan tepung, coklat bubuk, gula, telur, dan susu. Aduk rata.</li>
+      <li>Tuang ke dalam loyang, panggang di oven suhu 180°C selama 30-35 menit.</li>
+      <li>Dinginkan cake, lalu olesi dengan frosting vanilla menggunakan spatula.</li>
+      <li>Potong dan sajikan.</li>
+    </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- Menu Tasty -->
+    <div id="menu-tasty" style="display:none;">
+      <h2>Tasty Menu</h2>
+      <div class="menu-item">
+  <img src="https://raw.githubusercontent.com/afiqmuzhaffar/Foodzie/main/spaghetti.jpg" alt="Spaghetti Seafood" />
+  <div class="menu-info">
+    <h3>Spaghetti Seafood</h3>
+    <p>Mie Spaghetti, Udang, Bolongnese</p>
+    <p class="star">⭐ 4,5</p>
+    <div id="spaghetti-locked">
+      <p><strong>Resep:</strong> <span style="color: red;">🔒 Resep ini hanya bisa dibuka dengan pembayaran</span><br>
+      <a href="https://wa.me/628999447947?text=Saya%20ingin%20membuka%20resep%20Spaghetti%20Seafood" target="_blank" style="text-decoration: none;">
+  <button style="padding:5px 15px; border:none; background:#d17c79; color:white; border-radius:5px; margin-top:5px;">
+    Bayar & Konfirmasi via WhatsApp
+  </button>
+</a>
+</div>
+<button onclick="unlockSpaghetti()" style="margin-top:10px; padding:5px 15px; background:#88d0d0; color:#fff; border:none; border-radius:5px;">
+  Sudah Konfirmasi
+</button>
+
+    <div id="spaghetti-unlocked" style="display:none;">
+      <p><strong>Resep:</strong> Rebus spaghetti hingga al dente. Tumis bawang putih, masukkan udang dan seafood, tambahkan saus bolongnese, aduk rata. Campurkan dengan spaghetti, sajikan hangat.</p>
+      <ol>
+        <li>Rebus mie spaghetti hingga matang, tiriskan.</li>
+        <li>Tumis bawang putih cincang hingga harum.</li>
+        <li>Masukkan udang dan seafood, masak hingga berubah warna.</li>
+        <li>Tuang saus bolongnese, aduk rata.</li>
+        <li>Masukkan spaghetti, aduk hingga tercampur rata.</li>
+        <li>Sajikan di piring, taburi parsley jika suka.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+      <div class="menu-item">
+        <img src="https://raw.githubusercontent.com/afiqmuzhaffar/Foodzie/main/ricebowl.jpg" alt="Rice Bowl" />
+        <div class="menu-info">
+          <h3>Rice Bowl</h3>
+          <p>Nasi, Telur, Daging</p>
+          <p class="star">⭐ 4,4</p>
+          <p><strong>Resep:</strong> Masak nasi, goreng telur, tumis daging dengan kecap manis dan bawang.</p>
+          ol>
+      <li>Masak nasi seperti biasa menggunakan rice cooker atau panci.</li>
+      <li>Panaskan sedikit minyak, goreng telur mata sapi.</li>
+      <li>Potong daging tipis-tipis, tumis dengan kecap manis, bawang putih, dan sedikit garam.</li>
+      <li>Susun nasi, telur, dan daging dalam mangkuk. Sajikan hangat.</li>
+    </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- Menu Healthy -->
+    <div id="menu-healthy" style="display:none;">
+      <h2>Healthy Menu</h2>
+      <div class="menu-item">
+        <img src="https://raw.githubusercontent.com/afiqmuzhaffar/Foodzie/main/saladsayur.jpg" alt="Salad Sayur" />
+        <div class="menu-info">
+          <h3>Salad Sayur</h3>
+          <p>Fresh Vegetables, Dressing</p>
+          <p class="star">⭐ 4,3</p>
+          <p><strong>Resep:</strong> Potong sayuran segar, campur dengan dressing lemon dan minyak zaitun.</p>
+          <ol>
+      <li>Cuci bersih semua sayuran seperti selada, tomat, timun, dan wortel.</li>
+      <li>Potong-potong sesuai selera.</li>
+      <li>Campurkan 1 sdm minyak zaitun dan 1 sdt air lemon, tambahkan sedikit garam dan lada.</li>
+      <li>Tuang dressing ke sayuran, aduk rata, dan sajikan segera.</li>
+    </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kembali Button -->
+    <div style="text-align:center; margin-top: 20px;">
+      <button onclick="showRekomendasi()" style="padding: 10px 20px; border: none; background: #d17c79; color: white; border-radius: 5px;">← Kembali ke Rekomendasi</button>
+    </div>
+  </div>
+
+  <script>
+    let currentMenu = "";
+
+    function showMenu(type) {
+      if (currentMenu === type) {
+        showRekomendasi();
+        return;
+      }
+
+      document.getElementById("menu-rekomendasi").style.display = "none";
+      document.getElementById("menu-sweet").style.display = "none";
+      document.getElementById("menu-tasty").style.display = "none";
+      document.getElementById("menu-healthy").style.display = "none";
+
+      document.getElementById(`menu-${type}`).style.display = "block";
+      currentMenu = type;
+    }
+
+    function showRekomendasi() {
+      document.getElementById("menu-rekomendasi").style.display = "block";
+      document.getElementById("menu-sweet").style.display = "none";
+      document.getElementById("menu-tasty").style.display = "none";
+      document.getElementById("menu-healthy").style.display = "none";
+      currentMenu = "";
+    }
+
+    function showBeranda() {
+      const usernameInput = document.querySelector('.login-form input[type="text"]').value.trim();
+      const passwordInput = document.querySelector('.login-form input[type="password"]').value.trim();
+
+      const validUsername = "1";
+      const validPassword = "1";
+
+      if (usernameInput === validUsername && passwordInput === validPassword) {
+        document.getElementById("login-page").style.display = "none";
+        document.getElementById("beranda-page").style.display = "block";
+      } else {
+        alert("Username atau password salah. Silakan coba lagi.");
+      }
+    }
+
+    function logout() {
+      document.getElementById("beranda-page").style.display = "none";
+      document.getElementById("login-page").style.display = "flex";
+      // Reset tampilan menu ke rekomendasi saat login ulang
+      showRekomendasi();
+    }
+  </script>
+</body>
+</html>
